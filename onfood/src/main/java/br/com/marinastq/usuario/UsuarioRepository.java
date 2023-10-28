@@ -11,5 +11,6 @@ public class UsuarioRepository implements PanacheRepository<Usuario>{
 	public Usuario findByNome(String nome){
 		return find("nome", nome).firstResult();
 	}
+	
 
 }

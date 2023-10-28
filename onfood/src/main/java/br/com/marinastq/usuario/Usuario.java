@@ -13,9 +13,4 @@ public class Usuario extends PanacheEntity{
 	public String senha;
 	public LocalDate dataCadastro;
 	
-	
-	public String getNome() {
-		return nome;
-	}
-	
 }

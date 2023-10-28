@@ -40,6 +40,20 @@ public class UsuarioResource {
 		Usuario usuario = Usuario.findById(id);
 
 		if(usuario == null) {
+			//retorna sucesso sem conteudo 204
+			return Response.status(Response.Status.NO_CONTENT).build();
+		}
+		
+		return Response.ok(usuario).status(201).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("findByNome")
+	public Response findUserByNome(@QueryParam("nome") String nome) {
+		Usuario usuario = usuarioRepository.findByNome(nome);
+
+		if(usuario == null) {
 			return Response.status(Response.Status.NO_CONTENT).build();
 		}
 		
@@ -50,8 +64,10 @@ public class UsuarioResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-	public Response newUsuario(Usuario usuario) {
-		if(usuarioRepository.findByNome(usuario.getNome()) == null) {
+	public Response newUsuario(UsuarioDTO usuarioDTO) {
+		Usuario usuario = usuarioDTOtoEntity(usuarioDTO);
+		
+		if(usuarioRepository.findByNome(usuario.nome) == null) {
 			usuario.id = null;
 			usuario.dataCadastro = LocalDate.now();
 			usuario.persist();
@@ -60,32 +76,48 @@ public class UsuarioResource {
 //		return Response.status(Status.CREATED).entity(usuario).build();
 		return Response.created(URI.create("/usuarios/" + usuario.id)).build();
 	}
+
+	private Usuario usuarioDTOtoEntity(UsuarioDTO usuarioDTO) {
+		Usuario usuario = new Usuario();
+		usuario.nome = usuarioDTO.nome();
+		usuario.email = usuarioDTO.email();
+		usuario.senha = usuarioDTO.senha();
+		return usuario;
+	}
+	
+	private UsuarioDTO usuarioEntityToDTO(Usuario usuario) {
+		return new UsuarioDTO(
+				usuario.nome,
+				usuario.email,
+				usuario.senha);
+	}
 	
 	@Transactional
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateUsuario(@PathParam("id") Long id, Usuario usuario) {
-		Usuario usuarioNew = usuarioRepository.findById(id);
-	    if(usuarioNew == null) {
+	public Response updateUsuario(@PathParam("id") Long id, UsuarioDTOUpdate usuarioUpdateDTO) throws UsuarioNotFoundException{
+		Usuario usuario = usuarioRepository.findById(id);
+	    if(usuario == null) {
+			//retorna sucesso sem conteudo 204
+			//return Response.status(Response.Status.NO_CONTENT).build();
+			//lanca Exception no console
 	    	throw new UsuarioNotFoundException(id);
 	    }
 
 	    // map all fields from the person parameter to the existing entity
-	    usuarioNew.id = usuario.id;
-	    usuarioNew.nome = usuario.nome;
-	    usuarioNew.email = usuario.email;
-	    usuarioNew.senha = usuario.senha;
-	    usuarioNew.dataCadastro = LocalDate.now();
+	    usuario.nome = usuarioUpdateDTO.nome();
+	    usuario.email = usuarioUpdateDTO.email();
+	    usuario.senha = usuarioUpdateDTO.senha();
 
-	    usuarioNew.persist();
-	    return Response.created(URI.create("/usuarios/" + usuario.id)).build();	
+	    return Response.created(URI.create("/usuarios/" + usuario.id)).build();
 	}
 	
 	@Transactional
     @DELETE
     @Path("/{id}")
-    public Response delete(@PathParam("id") Long id) {
+	@Produces(MediaType.TEXT_XML)
+    public Response delete(@PathParam("id") Long id) throws UsuarioNotFoundException {
 		Usuario usuario = usuarioRepository.findById(id);
 		
 		if(usuario == null) {
