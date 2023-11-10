@@ -18,4 +18,12 @@ insert into USUARIO (id, nome, email, senha, dataCadastro) values(1, 'Joao', 'jo
 insert into USUARIO (id, nome, email, senha, dataCadastro) values(2, 'Maria', 'maria@gmail.com', 'maria', curdate());
 insert into USUARIO (id, nome, email, senha, dataCadastro) values(3, 'Jose', 'jose@gmail.com', 'jose', curdate());
 insert into USUARIO (id, nome, email, senha, dataCadastro) values(4, 'Ana', 'ana@gmail.com', 'ana', curdate());
+
+
+
+CREATE SEQUENCE grupo_seq START WITH 1 INCREMENT BY 1;
+insert into GRUPO (id, nome) values (nextval('grupo_seq'), 'Grupo cliente');
+insert into GRUPO (id, nome) values (nextval('grupo_seq'), 'Grupo restaurante');
+insert into GRUPO (id, nome) values (nextval('grupo_seq'), 'Grupo entrega');
+
 */
