@@ -1,7 +1,7 @@
 package br.com.marinastq.restaurante;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import br.com.marinastq.endereco.Endereco;
@@ -20,8 +20,8 @@ public class Restaurante extends PanacheEntity{
 	public BigDecimal taxaFrete;
 	public Boolean ativo;
 	public Boolean aberto;
-	public Calendar dataCadastro;
-	public Calendar dataAtualizacao;
+	public LocalDateTime dataCadastro;
+	public LocalDateTime dataAtualizacao;
 	
 	@OneToMany(mappedBy = "restaurante")
 	public List<Pedido> pedido;

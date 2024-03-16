@@ -2,7 +2,7 @@ use onfood;
 
 -- USUARIO
 CREATE TABLE `usuario` (
-  `dataCadastro` date DEFAULT NULL,
+  `dataCadastro` datetime DEFAULT NULL,
   `id` bigint NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `nome` varchar(255) DEFAULT NULL,

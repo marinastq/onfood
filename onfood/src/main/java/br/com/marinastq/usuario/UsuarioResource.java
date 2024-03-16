@@ -2,6 +2,7 @@ package br.com.marinastq.usuario;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.inject.Inject;
@@ -20,7 +21,7 @@ import jakarta.ws.rs.core.Response;
 
 @Path("/usuarios")
 public class UsuarioResource {
-	
+	/*
 	@Inject
 	UsuarioRepository usuarioRepository;
 
@@ -69,7 +70,7 @@ public class UsuarioResource {
 		
 		if(usuarioRepository.findByNome(usuario.nome) == null) {
 			usuario.id = null;
-			usuario.dataCadastro = LocalDate.now();
+//			usuario.dataCadastro = LocalDateTime.now();
 			usuario.persist();
 		}
 		
@@ -127,4 +128,5 @@ public class UsuarioResource {
 		usuario.delete();
 		return Response.noContent().status(201).build();
     }
+    */
 }

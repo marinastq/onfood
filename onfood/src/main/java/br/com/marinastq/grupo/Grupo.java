@@ -8,7 +8,6 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -16,11 +15,12 @@ public class Grupo extends PanacheEntity{
 	//panache gerencia ID no PanacheEntity
 	public String nome;
 	
-	@OneToMany(targetEntity=Permissao.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "permissao")
-	@JoinColumn(name = "grupo_id", referencedColumnName = "id")
+	@OneToMany(targetEntity=Permissao.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "grupo")
+//	@JoinColumn(name = "grupo_id", referencedColumnName = "id")
 	public List<Permissao> permissoes;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="grupo")
+	
+	@OneToMany(mappedBy="grupo")
 //	Esses comandos são para ManyToMany
 //	@JoinTable(name="usuario_grupo",
 //	             joinColumns={@JoinColumn(name="usuario_id")},
